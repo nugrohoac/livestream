@@ -1,0 +1,31 @@
+{
+   "id":"ls-id-1",
+   "title":"livestream-title-1",
+   "type":"KELAS_ONLINE",
+   "room_url":"http://room-url",
+   "description":"description of live stream online",
+   "poster_url":"http://poster-url",
+   "post_video_url":"http://post-video-url",
+   "is_publish":false,
+   "start_at":"2021-01-26T12:00:00Z",
+   "end_at":"2021-01-26T13:00:00Z",
+   "class_ids":[
+        "class-id-1",
+        "class-id-2"
+   ],
+   "course_ids":[
+        "course-id-1",
+        "course-id-2"
+   ],
+   "teacher_id":32,
+   "live_stream_backup_url":"http://live-stream-backup-url",
+   "thumbnail_video":"http://thumbnail-url",
+   "is_on_air":false,
+   "max_question_lobby":10,
+   "room_id":"room-id",
+   "push_notif":{
+      "status":0,
+      "title":"title push notif",
+      "description":"description push notif"
+   }
+}
