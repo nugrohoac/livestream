@@ -35,3 +35,9 @@ type PushNotif struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 }
+
+// LivestreamFilter ....
+type LivestreamFilter struct {
+	Num    int32
+	Cursor string
+}

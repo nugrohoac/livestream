@@ -4,14 +4,14 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/stretchr/testify/assert"
-
-	"github.com/nugrohoac/livestream/testdata"
-
 	"github.com/stretchr/testify/suite"
 
 	"github.com/nugrohoac/livestream/entity"
 	"github.com/nugrohoac/livestream/repository/mysql"
+	"github.com/nugrohoac/livestream/testdata"
 )
 
 type livestreamTestSuite struct {
@@ -44,4 +44,23 @@ func (l *livestreamTestSuite) TestLivestreamRepository_Create() {
 	err = row.Scan(&count)
 	assert.NoError(l.T(), err)
 	assert.Equal(l.T(), 1, count)
+}
+
+func (l *livestreamTestSuite) TestLivestreamRepository_Fetch() {
+	livestreams := make([]entity.LiveStream, 0)
+	testdata.GoldenJSONUnmarshal(l.T(), "livestreams", &livestreams)
+
+	mysql.SeedLivestreams(l.DBConn, l.T(), livestreams)
+
+	livestreamRepository := mysql.NewLiveStreamMysql(l.DBConn)
+	arrLivestreams, livestreamIDs, cursor, err := livestreamRepository.Fetch(context.Background(), entity.LivestreamFilter{
+		Num:    1,
+		Cursor: "",
+	})
+
+	require.NoError(l.T(), err)
+	require.NotEmpty(l.T(), cursor)
+	require.Equal(l.T(), 1, len(livestreamIDs))
+	require.Equal(l.T(), 1, len(arrLivestreams))
+	require.Equal(l.T(), livestreams[1].Title, arrLivestreams[0].Title)
 }

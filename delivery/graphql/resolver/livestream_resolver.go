@@ -1,6 +1,7 @@
 package resolver
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/nugrohoac/livestream/entity"
@@ -20,6 +21,7 @@ func (l *LivestreamResolver) Title() *string {
 }
 
 func (l *LivestreamResolver) Type() *string {
+	fmt.Println("FUNCTION TYPE IS EXECUTE")
 	return &l.Data.Type
 }
 

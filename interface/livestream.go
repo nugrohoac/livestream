@@ -14,4 +14,5 @@ type LivestreamService interface {
 // LivestreamRepository is interface for data source of live stream at repository for all data source, mysql, http,
 type LivestreamRepository interface {
 	Create(ctx context.Context, livestream entity.LiveStream) (entity.LiveStream, error)
+	Fetch(ctx context.Context, filter entity.LivestreamFilter) ([]entity.LiveStream, []string, string, error)
 }
