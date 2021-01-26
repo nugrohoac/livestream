@@ -1,0 +1,9 @@
+type PushNotifKelasOnline {
+    Title: String
+    Description: String
+}
+
+input PushNotifKelasOnlineInput {
+    Title: String
+    Description: String
+}

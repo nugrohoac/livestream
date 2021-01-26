@@ -1,0 +1,15 @@
+type Rating {
+    ID: String
+    ObjectType: ObjectType
+    ObjectID: String
+    LiveStreamID: String
+    Score: Int
+    UserID: Int
+}
+
+enum ObjectType {
+    KELAS_ONLINE
+    WEBINAR
+    ROCKSTAR_TEACHER
+    NARASUMBER
+}

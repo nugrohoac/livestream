@@ -1,5 +1,6 @@
 package entity
 
+// Rating ...
 type Rating struct {
 	ID           string          `json:"id"`
 	ObjectType   string          `json:"object_type"`
@@ -11,6 +12,7 @@ type Rating struct {
 	BaseEntity
 }
 
+// RatingComment ...
 type RatingComment struct {
 	ID       string `json:"id"`
 	RatingID string `json:"rating_id"`

@@ -1,0 +1,21 @@
+type Mutation {
+    # Create new live stream data for kelas online & webinar
+    CreateLiveStream(
+        Title: String!
+        Type: LiveStreamType!
+        RoomURL: String!
+        Description: String
+        PosterURL: String
+        IsPublish: Boolean!
+        StartAt: String!
+        EndAt: String!
+        PostVideoURL: String
+        TeacherID: Int
+        LiveStreamBackupURL: String
+        ThumbnailVideo: String
+        IsOnAir: Boolean
+        MaxQuestionLobby: Int
+        PushNotifKelasOnline: PushNotifKelasOnlineInput
+        TriggerPushNotification: Boolean
+    ): LiveStream
+}

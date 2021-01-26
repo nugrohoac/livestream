@@ -1,0 +1,26 @@
+type LiveStream {
+    ID: String
+    Title: String
+    Type: LiveStreamType
+    RoomURL: String
+    Description: String
+    PosterURL: String
+    IsPublish: Boolean
+    StartAt: String
+    EndAt: String
+    PostVideoURL: String
+    TeacherID: Int
+    LiveStreamBackupURL: String
+    ThumbnailVideo: String
+    IsOnAir: Boolean
+    MaxQuestionLobby: Int
+    PushNotifKelasOnline: PushNotifKelasOnline
+    TriggerPushNotification: Boolean
+    Ratings: [Rating]
+}
+
+enum LiveStreamType {
+    KELAS_ONLINE
+    WEBINAR
+    OBRAL_BAJU
+}
