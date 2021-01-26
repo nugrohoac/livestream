@@ -24,3 +24,13 @@ enum LiveStreamType {
     WEBINAR
     OBRAL_BAJU
 }
+
+input LiveStreamFilter {
+    Num: Int
+    Cursor: String
+}
+
+type LiveStreamFeed {
+    List: [LiveStream]
+    Cursor: String
+}

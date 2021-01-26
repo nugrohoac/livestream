@@ -16,6 +16,16 @@ func (l livestreamService) Create(ctx context.Context, livestream entity.LiveStr
 	return l.livestreamRepo.Create(ctx, livestream)
 }
 
+// Fetch ...
+func (l livestreamService) Fetch(ctx context.Context, filter entity.LivestreamFilter) ([]*entity.LiveStream, *string, error) {
+	livestreams, _, cursor, err := l.livestreamRepo.Fetch(ctx, filter)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return livestreams, cursor, nil
+}
+
 // NewLivestreamService is used to initiate new instance of live stream service
 func NewLivestreamService(livestreamRepo _interface.LivestreamRepository) _interface.LivestreamService {
 	return livestreamService{

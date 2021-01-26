@@ -5,6 +5,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/nugrohoac/livestream/delivery/graphql/query"
+
+	"github.com/nugrohoac/livestream/pkg"
+
 	graphql2 "github.com/nugrohoac/livestream/delivery/graphql"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -16,7 +20,6 @@ import (
 
 	"github.com/nugrohoac/livestream/delivery/graphql/mutation"
 	"github.com/nugrohoac/livestream/delivery/graphql/schema"
-	"github.com/nugrohoac/livestream/pkg/handler"
 	"github.com/nugrohoac/livestream/repository/mysql"
 	"github.com/nugrohoac/livestream/service"
 )
@@ -39,7 +42,8 @@ func main() {
 	livestreamService := service.NewLivestreamService(livestreamMysqlrepo)
 
 	livestreamMutation := mutation.NewLivestreamMutation(livestreamService)
-	resolver := graphql2.NewRootResolver(livestreamMutation)
+	livestreamQuery := query.NewLivestreamQuery(livestreamService)
+	resolver := graphql2.NewRootResolver(livestreamMutation, livestreamQuery)
 
 	e := echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -53,7 +57,7 @@ func main() {
 
 	graphqlSchema := graphql.MustParseSchema(schema.String(), resolver)
 
-	e.POST("/live-stream/graphql", handler.GraphQLHandler(&relay.Handler{Schema: graphqlSchema}))
+	e.POST("/live-stream/graphql", pkg.GraphQLHandler(&relay.Handler{Schema: graphqlSchema}))
 
 	e.Logger.Fatal(e.Start(":8090"))
 }

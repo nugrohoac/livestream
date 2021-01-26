@@ -59,7 +59,7 @@ func (l *livestreamTestSuite) TestLivestreamRepository_Fetch() {
 	})
 
 	require.NoError(l.T(), err)
-	require.NotEmpty(l.T(), cursor)
+	require.NotEmpty(l.T(), *cursor)
 	require.Equal(l.T(), 1, len(livestreamIDs))
 	require.Equal(l.T(), 1, len(arrLivestreams))
 	require.Equal(l.T(), livestreams[1].Title, arrLivestreams[0].Title)

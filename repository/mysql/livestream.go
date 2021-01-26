@@ -16,7 +16,6 @@ import (
 
 	"github.com/nugrohoac/livestream/entity"
 	_interface "github.com/nugrohoac/livestream/interface"
-	_const "github.com/nugrohoac/livestream/pkg/const"
 )
 
 type livestreamRepository struct {
@@ -29,10 +28,10 @@ func (r livestreamRepository) Create(ctx context.Context, livestream entity.Live
 
 	livestreamType := 1
 	switch livestream.Type {
-	case _const.WEBINAR:
+	case pkg.WEBINAR:
 		livestreamType = 2
 		break
-	case _const.OBRAL_BAJU:
+	case pkg.OBRAL_BAJU:
 		livestreamType = 3
 		break
 	}
@@ -100,7 +99,7 @@ func (r livestreamRepository) Create(ctx context.Context, livestream entity.Live
 }
 
 // Fetch return array live stream, ids livestream, and error
-func (r livestreamRepository) Fetch(ctx context.Context, filter entity.LivestreamFilter) ([]entity.LiveStream, []string, string, error) {
+func (r livestreamRepository) Fetch(ctx context.Context, filter entity.LivestreamFilter) ([]*entity.LiveStream, []*string, *string, error) {
 	qSelect := sq.Select(
 		"id",
 		"title",
@@ -132,7 +131,7 @@ func (r livestreamRepository) Fetch(ctx context.Context, filter entity.Livestrea
 	if filter.Cursor != "" {
 		timeCursor, err := pkg.DecodeCursor(filter.Cursor)
 		if err != nil {
-			return nil, nil, "", err
+			return nil, nil, nil, err
 		}
 
 		qSelect = qSelect.Where("created_at < ?", timeCursor)
@@ -141,15 +140,15 @@ func (r livestreamRepository) Fetch(ctx context.Context, filter entity.Livestrea
 	query, args, err := qSelect.ToSql()
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return make([]entity.LiveStream, 0), []string{}, "", err
+			return make([]*entity.LiveStream, 0), make([]*string, 0), nil, err
 		}
 
-		return nil, nil, "", errors.Wrap(err, "error fetch live stream")
+		return nil, nil, nil, errors.Wrap(err, "error fetch live stream")
 	}
 
 	rows, err := r.db.QueryContext(ctx, query, args...)
 	if err != nil {
-		return nil, nil, "", errors.Wrap(err, "error execute query")
+		return nil, nil, nil, errors.Wrap(err, "error execute query")
 	}
 
 	defer func() {
@@ -159,8 +158,8 @@ func (r livestreamRepository) Fetch(ctx context.Context, filter entity.Livestrea
 	}()
 
 	var (
-		livestreams   = make([]entity.LiveStream, 0)
-		livestreamIDs = make([]string, 0)
+		livestreams   = make([]*entity.LiveStream, 0)
+		livestreamIDs = make([]*string, 0)
 		timeCursor    time.Time
 		classIDs      string
 		courseIDs     string
@@ -195,26 +194,26 @@ func (r livestreamRepository) Fetch(ctx context.Context, filter entity.Livestrea
 			&bytePushNotif,
 			&timeCursor,
 		); err != nil {
-			return nil, nil, "", errors.Wrap(err, "error scan row")
+			return nil, nil, nil, errors.Wrap(err, "error scan row")
 		}
 
 		if err = json.Unmarshal(bytePushNotif, &pushNotif); err != nil {
-			return nil, nil, "", err
+			return nil, nil, nil, err
 		}
 
 		livestream.ClassIDs = strings.Split(classIDs, ",")
 		livestream.CourseIDs = strings.Split(courseIDs, ",")
 		livestream.PushNotif = pushNotif
-		livestreams = append(livestreams, livestream)
-		livestreamIDs = append(livestreamIDs, livestream.ID)
+		livestreams = append(livestreams, &livestream)
+		livestreamIDs = append(livestreamIDs, &livestream.ID)
 	}
 
 	cursor, err := pkg.EncodeCursor(timeCursor)
 	if err != nil {
-		return nil, nil, "", errors.Wrap(err, "error encode cursor")
+		return nil, nil, nil, errors.Wrap(err, "error encode cursor")
 	}
 
-	return livestreams, livestreamIDs, cursor, nil
+	return livestreams, livestreamIDs, &cursor, nil
 }
 
 // NewLiveStreamMysql ...

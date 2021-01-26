@@ -1,4 +1,4 @@
-package _const
+package pkg
 
 const (
 	// KELAS_ONLINE is used to identify kelas online

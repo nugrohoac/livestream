@@ -7,11 +7,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nugrohoac/livestream/pkg"
+
 	sq "github.com/Masterminds/squirrel"
 	"github.com/stretchr/testify/require"
 
 	"github.com/nugrohoac/livestream/entity"
-	_const "github.com/nugrohoac/livestream/pkg/const"
 )
 
 // SeedLivestreams ...
@@ -46,10 +47,10 @@ func SeedLivestreams(db *sql.DB, t *testing.T, livestreams []entity.LiveStream) 
 
 		livestreamType := 1
 		switch livestream.Type {
-		case _const.WEBINAR:
+		case pkg.WEBINAR:
 			livestreamType = 2
 			break
-		case _const.OBRAL_BAJU:
+		case pkg.OBRAL_BAJU:
 			livestreamType = 3
 			break
 		}

@@ -1,3 +1,5 @@
 type Query {
-
+    GetLivestreams(
+        filter: LiveStreamFilter
+    ):LiveStreamFeed
 }

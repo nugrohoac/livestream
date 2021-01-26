@@ -34,3 +34,44 @@ func (_m *LivestreamRepository) Create(ctx context.Context, livestream entity.Li
 
 	return r0, r1
 }
+
+// Fetch provides a mock function with given fields: ctx, filter
+func (_m *LivestreamRepository) Fetch(ctx context.Context, filter entity.LivestreamFilter) ([]*entity.LiveStream, []*string, *string, error) {
+	ret := _m.Called(ctx, filter)
+
+	var r0 []*entity.LiveStream
+	if rf, ok := ret.Get(0).(func(context.Context, entity.LivestreamFilter) []*entity.LiveStream); ok {
+		r0 = rf(ctx, filter)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*entity.LiveStream)
+		}
+	}
+
+	var r1 []*string
+	if rf, ok := ret.Get(1).(func(context.Context, entity.LivestreamFilter) []*string); ok {
+		r1 = rf(ctx, filter)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).([]*string)
+		}
+	}
+
+	var r2 *string
+	if rf, ok := ret.Get(2).(func(context.Context, entity.LivestreamFilter) *string); ok {
+		r2 = rf(ctx, filter)
+	} else {
+		if ret.Get(2) != nil {
+			r2 = ret.Get(2).(*string)
+		}
+	}
+
+	var r3 error
+	if rf, ok := ret.Get(3).(func(context.Context, entity.LivestreamFilter) error); ok {
+		r3 = rf(ctx, filter)
+	} else {
+		r3 = ret.Error(3)
+	}
+
+	return r0, r1, r2, r3
+}
